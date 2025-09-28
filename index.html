@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chill — Masuk</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="auth-bg">
+  <main class="auth-wrap" role="main">
+    <div class="logo"><i aria-hidden="true">🎬</i><span>CHILL</span></div>
+    <h1>Masuk</h1>
+    <p class="subtitle">Selamat datang kembali!</p>
+
+    <!-- Tanpa JS: form hanya memindahkan halaman -->
+    <form action="./home.html" method="get">
+      <label class="label" for="login-user">Username</label>
+      <input class="input" id="login-user" name="user" type="text" placeholder="Masukkan username" required />
+
+      <label class="label" for="login-pass">Kata Sandi</label>
+      <input class="input" id="login-pass" name="pass" type="password" placeholder="Masukkan kata sandi" required />
+
+      <div class="row-inline">
+        <a href="./register.html">Belum punya akun? Daftar</a>
+        <a href="#" aria-disabled="true">Lupa kata sandi?</a>
+      </div>
+
+      <button class="btn block" type="submit">Masuk</button>
+
+      <div class="or"><span></span>atau<span></span></div>
+      <button class="btn-google" type="button" aria-disabled="true">
+        <span class="g" aria-hidden="true"></span> Masuk dengan Google
+      </button>
+    </form>
+  </main>
+</body>
+</html>
