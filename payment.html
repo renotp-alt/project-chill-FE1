@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chill — Pembayaran</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="topbar">
+      <div class="brand"><i class="brand-icon" aria-hidden="true">🎬</i> <span>CHILL</span></div>
+      <nav aria-label="Navigasi utama">
+        <a href="./series.html">Series</a>
+        <a href="./film.html">Film</a>
+        <a href="./my-list.html">Daftar Saya</a>
+      </nav>
+      <a class="avatar" href="./profile.html" title="Profil" aria-label="Profil"></a>
+    </div>
+  </header>
+
+  <main class="container" role="main">
+    <section class="section">
+      <h3>Ringkasan Pembayaran</h3>
+      <div class="summary" id="sum">
+        <div class="summary-row"><span>Paket</span><strong id="sum-plan">-</strong></div>
+        <div class="summary-row"><span>Metode</span>
+          <select id="method" class="input" style="max-width:220px;background:#0f141b;border-color:#2b3a4e">
+            <option>Transfer Bank</option>
+            <option>Kartu Kredit/Debit</option>
+            <option>e-Wallet</option>
+          </select>
+        </div>
+        <div class="summary-row"><span>Total</span><strong class="summary-total" id="sum-total">Rp 0</strong></div>
+      </div>
+      <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+        <a class="btn" href="#" id="pay">Bayar</a>
+        <a class="btn-outline" href="./plans.html">Kembali</a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function(){
+      var plan = localStorage.getItem('chill.plan') || 'Basic - 29K';
+      document.getElementById('sum-plan').textContent = plan;
+      var price = /([0-9]+K)/.exec(plan); var total = price? price[1].replace('K','000') : '29000';
+      document.getElementById('sum-total').textContent = 'Rp ' + new Intl.NumberFormat('id-ID').format(parseInt(total,10));
+      document.getElementById('pay').addEventListener('click', function(e){
+        e.preventDefault();
+        alert('Pembayaran diproses (simulasi).');
+        try{ localStorage.setItem('chill.plan', plan); }catch(e){}
+        window.location.href = './profile.html';
+      });
+    })();
+  </script>
+</body>
+</html>
+
+

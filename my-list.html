@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chill — Daftar Saya</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="container" role="main">
+    <div id="root"></div>
+  </main>
+
+  <script src="./vendor/react.development.js" onerror="(function(){var s=document.createElement('script');s.crossOrigin='';s.src='https://unpkg.com/react@18/umd/react.development.js';document.head.appendChild(s);})();"></script>
+  <script src="./vendor/react-dom.development.js" onerror="(function(){var s=document.createElement('script');s.crossOrigin='';s.src='https://unpkg.com/react-dom@18/umd/react-dom.development.js';document.head.appendChild(s);})();"></script>
+  <script src="./vendor/babel.min.js" onerror="(function(){var s=document.createElement('script');s.src='https://unpkg.com/@babel/standalone/babel.min.js';document.head.appendChild(s);})();"></script>
+  <script type="text/babel" data-presets="react">
+    const { useEffect, useRef } = React;
+
+    function Header(){
+      return (
+        <header className="header">
+          <div className="topbar">
+            <div className="brand"><i className="brand-icon" aria-hidden="true">🎬</i> <span>CHILL</span></div>
+            <nav aria-label="Navigasi utama">
+              <a href="./series.html">Series</a>
+              <a href="./film.html">Film</a>
+              <a href="./my-list.html" aria-current="page">Daftar Saya</a>
+            </nav>
+            <div className="avatar" title="Profil" aria-label="Profil"></div>
+          </div>
+        </header>
+      );
+    }
+
+    function Card({ img, alt, label }){
+      return (
+        <article className="card">
+          <img loading="lazy" src={img} alt={alt} onError={(e)=>{e.currentTarget.onerror=null;e.currentTarget.src='https://via.placeholder.com/300x450?text=Poster';}} />
+          <div className="overlay"><p>{label}</p></div>
+        </article>
+      );
+    }
+
+    function Grid({ items }){
+      return (
+        <div className="scroller" style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(140px,1fr))',gap:'12px',overflow:'visible'}}>
+          {items.map((it,i)=>(<Card key={i} img={it.img} alt={it.alt} label={it.label} />))}
+        </div>
+      );
+    }
+
+    const data = {
+      title:'Daftar Saya',
+      items:[
+        { img:'https://image.tmdb.org/t/p/w500/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg', alt:'The Matrix', label:'The Matrix' },
+        { img:'https://image.tmdb.org/t/p/w500/NNxYkU70HPurnNCSiCjYAmacwm.jpg', alt:'MI7', label:'Mission: Impossible 7' },
+        { img:'https://image.tmdb.org/t/p/w500/62HCnUTziyWcpDaBO2i1DX17ljH.jpg', alt:'Top Gun 2', label:'Top Gun: Maverick' },
+        { img:'https://image.tmdb.org/t/p/w500/qNBAXBIQlnOThrVvA6mA2B5ggV6.jpg', alt:'Mario', label:'Super Mario Bros' },
+        { img:'https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg', alt:'Interstellar', label:'Interstellar' },
+        { img:'https://image.tmdb.org/t/p/w500/1hRoyzDtpgMU7Dz4JF22RANzQO7.jpg', alt:'TDK', label:'The Dark Knight' },
+        { img:'https://image.tmdb.org/t/p/w500/d5NXSklXo0qyIYkgV94XAgMIckC.jpg', alt:'Dune', label:'Dune' },
+        { img:'https://image.tmdb.org/t/p/w500/vZloFAK7NmvMGKE7VkF5UHaz0I.jpg', alt:'JW4', label:'John Wick 4' }
+      ]
+    };
+
+    function Footer(){
+      return (
+        <footer className="site-footer">
+          <div className="foot-grid">
+            <div className="foot-brand"><div className="logo-row"><i className="logo-box" aria-hidden="true">🎬</i> <span>CHILL</span></div><p className="copy">©2025 Chill All Rights Reserved.</p></div>
+            <div className="foot-block foot-genre"><div className="foot-title">Genre</div><ul className="foot-list genre-cols"><li>Aksi</li><li>Drama</li><li>Komedi</li><li>Sains & Alam</li><li>Anak-anak</li><li>Fantasi Ilmiah & Fantasi</li><li>Petualangan</li><li>Thriller</li><li>Anime</li><li>Kejahatan</li><li>Perang</li><li>Romantis</li><li>Britania</li><li>KDrama</li></ul></div>
+            <div className="foot-block foot-help"><div className="foot-title">Bantuan</div><ul className="foot-list"><li><a href="#">FAQ</a></li><li><a href="#">Kontak Kami</a></li><li><a href="#">Privasi</a></li><li><a href="#">Syarat & Ketentuan</a></li></ul></div>
+          </div>
+        </footer>
+      );
+    }
+
+    function App(){
+      return (
+        <>
+          <Header />
+          <main className="container" role="main">
+            <section className="section">
+              <h3>{data.title}</h3>
+              <Grid items={data.items} />
+            </section>
+          </main>
+          <Footer />
+        </>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
+
+

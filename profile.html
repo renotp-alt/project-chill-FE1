@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chill — Profil</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="topbar">
+      <div class="brand"><i class="brand-icon" aria-hidden="true">🎬</i> <span>CHILL</span></div>
+      <nav aria-label="Navigasi utama">
+        <a href="./series.html">Series</a>
+        <a href="./film.html">Film</a>
+        <a href="./my-list.html">Daftar Saya</a>
+      </nav>
+      <a class="avatar" href="./profile.html" title="Profil" aria-label="Profil"></a>
+    </div>
+  </header>
+
+  <main class="container" role="main">
+    <section class="section">
+      <h3>Profil Saya</h3>
+      <div class="summary">
+        <div class="summary-row"><span>Nama</span><strong id="prof-name">Pengguna</strong></div>
+        <div class="summary-row"><span>Status</span><span id="prof-status">Belum Berlangganan</span></div>
+        <div class="summary-row"><span>Paket</span><span id="prof-plan">-</span></div>
+      </div>
+      <div style="margin-top:12px">
+        <a class="btn" href="./plans.html">Pilih Paket</a>
+      </div>
+    </section>
+
+    <section class="section">
+      <h3>Daftar Saya</h3>
+      <div class="scroller" tabindex="0" aria-label="Daftar Saya (geser)">
+        <article class="card"><img src="https://image.tmdb.org/t/p/w500/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg" alt="The Matrix"/></article>
+        <article class="card"><img src="https://image.tmdb.org/t/p/w500/62HCnUTziyWcpDaBO2i1DX17ljH.jpg" alt="Top Gun 2"/></article>
+        <article class="card"><img src="https://image.tmdb.org/t/p/w500/NNxYkU70HPurnNCSiCjYAmacwm.jpg" alt="MI7"/></article>
+        <article class="card"><img src="https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg" alt="Interstellar"/></article>
+      </div>
+    </section>
+  </main>
+
+  <script src="./script.js"></script>
+  <script>
+    (function(){
+      var name = localStorage.getItem('chill.username') || 'Pengguna';
+      document.getElementById('prof-name').textContent = name;
+      var status = localStorage.getItem('chill.plan') ? 'Sedang Berlangganan' : 'Belum Berlangganan';
+      var plan = localStorage.getItem('chill.plan') || '-';
+      document.getElementById('prof-status').textContent = status;
+      document.getElementById('prof-plan').textContent = plan;
+    })();
+  </script>
+</body>
+</html>
+
+

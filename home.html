@@ -7,243 +7,191 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <!-- Header -->
-  <header class="header">
-    <div class="topbar">
-      <div class="brand">
-        <i class="brand-icon" aria-hidden="true">🎬</i> <span>CHILL</span>
+  <main class="container" role="main">
+    <div id="root"></div>
+  </main>
+  <!-- React via CDN for quick prototyping; switch to Vite/Next for production -->
+  <script src="./vendor/react.development.js" onerror="(function(){var s=document.createElement('script');s.crossOrigin='';s.src='https://unpkg.com/react@18/umd/react.development.js';document.head.appendChild(s);})();"></script>
+  <script src="./vendor/react-dom.development.js" onerror="(function(){var s=document.createElement('script');s.crossOrigin='';s.src='https://unpkg.com/react-dom@18/umd/react-dom.development.js';document.head.appendChild(s);})();"></script>
+  <script src="./vendor/babel.min.js" onerror="(function(){var s=document.createElement('script');s.src='https://unpkg.com/@babel/standalone/babel.min.js';document.head.appendChild(s);})();"></script>
+  <script type="text/babel" data-presets="react">
+    /* global React, ReactDOM */
+    const { useEffect, useRef } = React;
+
+    function Header({ showProfile, setShowProfile }) {
+      return (
+        <header className="header">
+          <div className="topbar">
+            <div className="brand">
+              <a href="./home.html" style={{color:'inherit',textDecoration:'none'}}>
+                <i className="brand-icon" aria-hidden="true">🎬</i> <span>CHILL</span>
+              </a>
       </div>
       <nav aria-label="Navigasi utama">
-        <a href="#" aria-current="page">Series</a>
-        <a href="#">Film</a>
-        <a href="#">Daftar Saya</a>
+              <a href="./series.html">Series</a>
+              <a href="./film.html">Film</a>
+              <a href="./my-list.html">Daftar Saya</a>
       </nav>
-      <div class="avatar" title="Profil" aria-label="Profil"></div>
+            <div className="profile-wrap">
+              <div className="avatar" title="Profil" aria-label="Profil" onClick={() => setShowProfile(!showProfile)}></div>
+              <div className={`profile-dropdown ${showProfile ? 'show' : ''}`}>
+                <a href="./profile.html">Profil Saya</a>
+                <a href="./plans.html">Ubah Premium</a>
+                <a href="./index.html">Keluar</a>
+              </div>
+            </div>
     </div>
   </header>
+      );
+    }
 
-  <main class="container" role="main">
-    <!-- HERO -->
-    <section class="hero" aria-label="Hero film pilihan">
-      <div class="hero-inner">
-        <h2>Duty After School</h2>
-        <p>Sebuah benda tak dikenal mengancam dunia. Siswa sekolah menengah direkrut menjadi pasukan pertahanan.</p>
-        <div class="actions">
-          <a class="btn" href="#">Mulai</a>
-          <a class="btn-outline" href="#">Selengkapnya</a>
-          <span class="tag">18+</span>
+    function Hero({ title, description, ageTag, onShowDetail }) {
+      return (
+        <section className="hero" aria-label="Hero film pilihan">
+          <div className="hero-inner">
+            <h2>{title}</h2>
+            <p>{description}</p>
+            <div className="actions">
+              <a className="btn" href="./watch.html">Mulai</a>
+              <a className="btn-outline" href="#" onClick={(e) => { e.preventDefault(); onShowDetail(); }}>Selengkapnya</a>
+              <span className="tag">{ageTag}</span>
         </div>
       </div>
     </section>
+      );
+    }
 
-    <!-- Melanjutkan -->
-    <section class="section">
-      <h3>Melanjutkan Tonton Film</h3>
-      <div class="scroller" tabindex="0" aria-label="Melanjutkan Tonton Film (geser untuk melihat lainnya)">
-        <article class="card">
-          <img loading="lazy"
-            src="https://image.tmdb.org/t/p/w500/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg"
-            alt="The Matrix poster"
-            onerror="this.onerror=null;this.src='https://via.placeholder.com/300x450?text=Poster';" />
-          <div class="overlay"><p>The Matrix • ★ 4.7</p></div>
+    function Card({ img, alt, label, href, onShowDetail, item }) {
+      return (
+        <article className="card">
+          <a href={href || './watch.html'} onClick={(e) => {
+            if (onShowDetail && item) {
+              e.preventDefault();
+              onShowDetail(item);
+            }
+          }}>
+            <img loading="lazy" src={img} alt={alt} onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = 'https://via.placeholder.com/300x450?text=Poster';
+            }} />
+            <div className="overlay"><p>{label}</p></div>
+          </a>
         </article>
-        <article class="card">
-          <img loading="lazy"
-               src="https://image.tmdb.org/t/p/w500/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg"
-               alt="Barbie poster"
-               onerror="this.onerror=null;this.src='https://via.placeholder.com/300x450?text=Poster';" />
-          <div class="overlay"><p>Barbie • ★ 4.3/5</p></div>
-        </article>
-        <article class="card">
-          <img loading="lazy"
-               src="https://image.tmdb.org/t/p/w500/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg"
-               alt="Spider-Man: No Way Home poster"
-               onerror="this.onerror=null;this.src='https://via.placeholder.com/300x450?text=Poster';" />
-          <div class="overlay"><p>No Way Home • ★ 4.4/5</p></div>
-        </article>
-        <article class="card">
-          <img loading="lazy"
-               src="https://image.tmdb.org/t/p/w500/74xTEgt7R36Fpooo50r9T25onhq.jpg"
-               alt="The Batman poster"
-               onerror="this.onerror=null;this.src='https://via.placeholder.com/300x450?text=Poster';" />
-          <div class="overlay"><p>The Batman • ★ 4.2/5</p></div>
-        </article>
-        <article class="card">
-          <img loading="lazy"
-               src="https://image.tmdb.org/t/p/w500/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg"
-               alt="Joker poster"
-               onerror="this.onerror=null;this.src='https://via.placeholder.com/300x450?text=Poster';" />
-          <div class="overlay"><p>Joker • ★ 4.6/5</p></div>
-        </article>
-        <article class="card">
-          <img loading="lazy"
-               src="https://image.tmdb.org/t/p/w500/t6HIqrRAclMCA60NsSmeqe9RmNV.jpg"
-               alt="Avatar: The Way of Water poster"
-               onerror="this.onerror=null;this.src='https://via.placeholder.com/300x450?text=Poster';" />
-          <div class="overlay"><p>Avatar: The Way of Water • ★ 4.1/5</p></div>
-        </article>
+      );
+    }
+
+    function useHorizontalScroller(ref) {
+      useEffect(() => {
+        const el = ref.current;
+        if (!el) return;
+        const onWheel = (e) => {
+          if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+            e.preventDefault();
+            el.scrollLeft += e.deltaY;
+          }
+        };
+        let isDown = false; let startX = 0; let scrollLeft = 0;
+        const onDown = (e) => { isDown = true; startX = e.pageX - el.offsetLeft; scrollLeft = el.scrollLeft; el.setPointerCapture(e.pointerId); el.classList.add('dragging'); };
+        const onLeave = () => { isDown = false; el.classList.remove('dragging'); };
+        const onUp = () => { isDown = false; el.classList.remove('dragging'); };
+        const onMove = (e) => { if (!isDown) return; e.preventDefault(); const x = e.pageX - el.offsetLeft; const walk = (x - startX) * 1.2; el.scrollLeft = scrollLeft - walk; };
+        el.addEventListener('wheel', onWheel, { passive: false });
+        el.addEventListener('pointerdown', onDown);
+        el.addEventListener('pointerleave', onLeave);
+        el.addEventListener('pointerup', onUp);
+        el.addEventListener('pointermove', onMove);
+        return () => {
+          el.removeEventListener('wheel', onWheel);
+          el.removeEventListener('pointerdown', onDown);
+          el.removeEventListener('pointerleave', onLeave);
+          el.removeEventListener('pointerup', onUp);
+          el.removeEventListener('pointermove', onMove);
+        };
+      }, [ref]);
+    }
+
+    function Scroller({ ariaLabel, children }) {
+      const ref = useRef(null);
+      useHorizontalScroller(ref);
+      return (
+        <div ref={ref} className="scroller" tabIndex={0} aria-label={ariaLabel}>
+          {children}
       </div>
+      );
+    }
+
+    function Section({ title, items, onShowDetail }) {
+      return (
+        <section className="section">
+          <h3>{title}</h3>
+          <Scroller ariaLabel={`${title} (geser untuk melihat lainnya)`}>
+            {items.map((it, idx) => (
+              <Card key={idx} img={it.img} alt={it.alt} label={it.label} href="./watch.html" onShowDetail={onShowDetail} item={it} />
+            ))}
+          </Scroller>
     </section>
+      );
+    }
 
-    <!-- Top Rating -->
-    <section class="section">
-      <h3>Top Rating Film dan Series Hari ini</h3>
-      <div class="scroller" tabindex="0" aria-label="Top Rating (geser)">
-        <article class="card">
-          <img loading="lazy"
-               src="https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg"
-               alt="Interstellar poster"
-               onerror="this.onerror=null;this.src='https://via.placeholder.com/300x450?text=Poster';" />
-          <div class="overlay"><p>Interstellar • ★ 4.8</p></div>
-        </article>
-        <article class="card">
-          <img loading="lazy"
-                src="https://image.tmdb.org/t/p/w500/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg"
-                alt="Spider-Man: Across the Spider-Verse poster"
-                onerror="this.onerror=null;this.src='https://via.placeholder.com/300x450?text=Poster';" />
-          <div class="overlay"><p>Across the Spider-Verse • ★ 4.8/5</p></div>
-        </article>
-        <article class="card">
-          <img loading="lazy"
-               src="https://image.tmdb.org/t/p/w500/1hRoyzDtpgMU7Dz4JF22RANzQO7.jpg"
-               alt="The Dark Knight poster"
-               onerror="this.onerror=null;this.src='https://via.placeholder.com/300x450?text=Poster';" />
-          <div class="overlay"><p>The Dark Knight • ★ 4.9</p></div>
-        </article>
-        <article class="card">
-          <img loading="lazy"
-               src="https://image.tmdb.org/t/p/w500/d5NXSklXo0qyIYkgV94XAgMIckC.jpg"
-               alt="Dune poster"
-               onerror="this.onerror=null;this.src='https://via.placeholder.com/300x450?text=Poster';" />
-          <div class="overlay"><p>Dune • ★ 4.4</p></div>
-        </article>
-        <article class="card">
-          <img loading="lazy"
-               src="https://image.tmdb.org/t/p/w500/r2J02Z2OpNTctfOSN1Ydgii51I3.jpg"
-               alt="Guardians of the Galaxy poster"
-               onerror="this.onerror=null;this.src='https://via.placeholder.com/300x450?text=Poster';" />
-          <div class="overlay"><p>Guardians • ★ 4.5</p></div>
-        </article>
-        <article class="card">
-          <img loading="lazy"
-               src="https://image.tmdb.org/t/p/w500/vZloFAK7NmvMGKE7VkF5UHaz0I.jpg"
-               alt="John Wick: Chapter 4 poster"
-               onerror="this.onerror=null;this.src='https://via.placeholder.com/300x450?text=Poster';" />
-          <div class="overlay"><p>John Wick 4 • ★ 4.3</p></div>
-        </article>
+    const data = {
+      hero: { 
+        title: 'Duty After School', 
+        description: 'Sebuah benda tak dikenal mengancam dunia. Siswa sekolah menengah direkrut menjadi pasukan pertahanan.', 
+        ageTag: '18+',
+        fullDescription: 'Duty After School adalah drama Korea yang mengisahkan tentang ancaman misterius yang datang dari luar angkasa. Ketika benda asing menyerang Bumi, pemerintah Korea Selatan memutuskan untuk merekrut siswa SMA sebagai pasukan pertahanan. Cerita ini mengikuti perjalanan para siswa yang harus menghadapi kenyataan pahit perang sambil tetap berusaha mempertahankan kehidupan normal mereka sebagai remaja.',
+        episodes: [
+          { title: 'Episode 1: Ancaman dari Langit', duration: '45 menit' },
+          { title: 'Episode 2: Rekrutmen Paksa', duration: '42 menit' },
+          { title: 'Episode 3: Pertempuran Pertama', duration: '48 menit' },
+          { title: 'Episode 4: Kehilangan Teman', duration: '44 menit' },
+          { title: 'Episode 5: Kebenaran Terungkap', duration: '46 menit' }
+        ]
+      },
+      genres: ['Semua', 'Aksi', 'Drama', 'Sci-Fi', 'Thriller', 'Komedi', 'Romantis', 'Horror'],
+      continueWatching: [
+        { img: 'https://image.tmdb.org/t/p/w500/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg', alt: 'The Matrix poster', label: 'The Matrix • ★ 4.7', progress: 65 },
+        { img: 'https://image.tmdb.org/t/p/w500/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg', alt: 'Barbie poster', label: 'Barbie • ★ 4.3/5', progress: 30 },
+        { img: 'https://image.tmdb.org/t/p/w500/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg', alt: 'Spider-Man: No Way Home poster', label: 'No Way Home • ★ 4.4/5', progress: 80 },
+      ],
+      sections: [
+        { title: 'Top Rating Film dan Series Hari ini', items: [
+          { img: 'https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg', alt: 'Interstellar poster', label: 'Interstellar • ★ 4.8', title: 'Interstellar', description: 'Film sci-fi epik tentang perjalanan ke luar angkasa untuk menyelamatkan umat manusia.' },
+          { img: 'https://image.tmdb.org/t/p/w500/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg', alt: 'Across the Spider-Verse poster', label: 'Across the Spider-Verse • ★ 4.8/5', title: 'Spider-Man: Across the Spider-Verse', description: 'Miles Morales kembali dalam petualangan multiverse yang menakjubkan.' },
+          { img: 'https://image.tmdb.org/t/p/w500/1hRoyzDtpgMU7Dz4JF22RANzQO7.jpg', alt: 'The Dark Knight poster', label: 'The Dark Knight • ★ 4.9', title: 'The Dark Knight', description: 'Batman menghadapi Joker dalam pertarungan epik antara kebaikan dan kejahatan.' },
+          { img: 'https://image.tmdb.org/t/p/w500/d5NXSklXo0qyIYkgV94XAgMIckC.jpg', alt: 'Dune poster', label: 'Dune • ★ 4.4', title: 'Dune', description: 'Epik sci-fi tentang perjuangan untuk menguasai planet Arrakis yang kaya akan rempah.' },
+          { img: 'https://image.tmdb.org/t/p/w500/r2J02Z2OpNTctfOSN1Ydgii51I3.jpg', alt: 'Guardians poster', label: 'Guardians • ★ 4.5', title: 'Guardians of the Galaxy', description: 'Kelompok pahlawan luar angkasa yang tidak biasa dalam petualangan epik.' },
+          { img: 'https://image.tmdb.org/t/p/w500/vZloFAK7NmvMGKE7VkF5UHaz0I.jpg', alt: 'John Wick: Chapter 4 poster', label: 'John Wick 4 • ★ 4.3', title: 'John Wick: Chapter 4', description: 'John Wick kembali dalam aksi brutal melawan High Table.' },
+        ]},
+        { title: 'Film Trending', items: [
+          { img: 'https://image.tmdb.org/t/p/w500/qNBAXBIQlnOThrVvA6mA2B5ggV6.jpg', alt: 'The Super Mario Bros. Movie poster', label: 'Super Mario Bros • ★ 4.1', title: 'The Super Mario Bros. Movie', description: 'Petualangan Mario dan Luigi dalam dunia fantasi yang penuh warna.' },
+          { img: 'https://image.tmdb.org/t/p/w500/NNxYkU70HPurnNCSiCjYAmacwm.jpg', alt: 'Mission: Impossible – Dead Reckoning poster', label: 'Mission: Impossible 7 • ★ 4.2', title: 'Mission: Impossible - Dead Reckoning', description: 'Ethan Hunt kembali dalam misi paling berbahaya sepanjang kariernya.' },
+          { img: 'https://image.tmdb.org/t/p/w500/62HCnUTziyWcpDaBO2i1DX17ljH.jpg', alt: 'Top Gun: Maverick poster', label: 'Top Gun: Maverick • ★ 4.6', title: 'Top Gun: Maverick', description: 'Maverick kembali ke udara dalam misi yang akan menentukan masa depan.' },
+          { img: 'https://image.tmdb.org/t/p/w500/sv1xJUazXeYqALzczSZ3O6nkH75.jpg', alt: 'Black Panther: Wakanda Forever poster', label: 'Wakanda Forever • ★ 4.0', title: 'Black Panther: Wakanda Forever', description: 'Wakanda menghadapi tantangan baru setelah kehilangan raja mereka.' },
+          { img: 'https://image.tmdb.org/t/p/w500/gGEsBPAijhVUFoiNpgZXqRVWJt2.jpg', alt: 'Coco poster', label: 'Coco • ★ 4.7', title: 'Coco', description: 'Petualangan Miguel ke dunia orang mati untuk mengungkap rahasia keluarganya.' },
+          { img: 'https://image.tmdb.org/t/p/w500/8Y43POKjjKDGI9MH89NW0NAzzp8.jpg', alt: 'Free Guy poster', label: 'Free Guy • ★ 4.1', title: 'Free Guy', description: 'NPC dalam game video yang menyadari dirinya adalah karakter dalam dunia virtual.' },
+        ]},
+        { title: 'Rilis Baru', items: [
+          { img: 'https://image.tmdb.org/t/p/w500/ym1dxyOk4jFcSl4Q2zmRrA5BEEN.jpg', alt: 'The Little Mermaid poster', label: 'The Little Mermaid • New', title: 'The Little Mermaid', description: 'Adaptasi live-action dari kisah klasik putri duyung yang ingin menjadi manusia.' },
+          { img: 'https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg', alt: 'Dune: Part Two poster', label: 'Dune: Part Two • New', title: 'Dune: Part Two', description: 'Kelanjutan epik sci-fi tentang perjuangan untuk menguasai Arrakis.' },
+          { img: 'https://image.tmdb.org/t/p/w500/62HCnUTziyWcpDaBO2i1DX17ljH.jpg', alt: 'Top Gun: Maverick poster', label: 'Top Gun: Maverick • New', title: 'Top Gun: Maverick', description: 'Maverick kembali dalam misi udara yang menegangkan.' },
+          { img: 'https://image.tmdb.org/t/p/w500/qNBAXBIQlnOThrVvA6mA2B5ggV6.jpg', alt: 'The Super Mario Bros. Movie poster', label: 'Super Mario Bros • New', title: 'The Super Mario Bros. Movie', description: 'Petualangan Mario dan Luigi dalam dunia fantasi.' },
+          { img: 'https://image.tmdb.org/t/p/w500/ykUEbfpkf8d0w49pHh0AD2KrT52.jpg', alt: 'Interstellar (varian) poster', label: 'Interstellar (Varian) • New', title: 'Interstellar', description: 'Epik sci-fi tentang perjalanan ke luar angkasa untuk menyelamatkan umat manusia.' },
+          { img: 'https://image.tmdb.org/t/p/w500/xmbU4JTUm8rsdtn7Y3Fcm30GpeT.jpg', alt: 'Free Guy (varian) poster', label: 'Free Guy (Varian) • New', title: 'Free Guy', description: 'NPC dalam game video yang menyadari dirinya adalah karakter virtual.' },
+        ]},
+      ]
+    };
+
+    function Footer() {
+      return (
+        <footer className="site-footer">
+          <div className="foot-grid">
+            <div className="foot-brand">
+              <div className="logo-row"><i className="logo-box" aria-hidden="true">🎬</i> <span>CHILL</span></div>
+              <p className="copy">©2025 Chill All Rights Reserved.</p>
       </div>
-    </section>
-
-    <!-- Trending -->
-    <section class="section">
-      <h3>Film Trending</h3>
-      <div class="scroller" tabindex="0" aria-label="Film Trending (geser)">
-        <article class="card">
-          <img loading="lazy"
-               src="https://image.tmdb.org/t/p/w500/qNBAXBIQlnOThrVvA6mA2B5ggV6.jpg"
-               alt="The Super Mario Bros. Movie poster"
-               onerror="this.onerror=null;this.src='https://via.placeholder.com/300x450?text=Poster';" />
-          <div class="overlay"><p>Super Mario Bros • ★ 4.1</p></div>
-        </article>
-        <article class="card">
-          <img loading="lazy"
-               src="https://image.tmdb.org/t/p/w500/NNxYkU70HPurnNCSiCjYAmacwm.jpg"
-               alt="Mission: Impossible – Dead Reckoning poster"
-               onerror="this.onerror=null;this.src='https://via.placeholder.com/300x450?text=Poster';" />
-          <div class="overlay"><p>Mission: Impossible 7 • ★ 4.2</p></div>
-        </article>
-        <article class="card">
-          <img loading="lazy"
-               src="https://image.tmdb.org/t/p/w500/62HCnUTziyWcpDaBO2i1DX17ljH.jpg"
-               alt="Top Gun: Maverick poster"
-               onerror="this.onerror=null;this.src='https://via.placeholder.com/300x450?text=Poster';" />
-          <div class="overlay"><p>Top Gun: Maverick • ★ 4.6</p></div>
-        </article>
-        <article class="card">
-          <img loading="lazy"
-               src="https://image.tmdb.org/t/p/w500/sv1xJUazXeYqALzczSZ3O6nkH75.jpg"
-               alt="Black Panther: Wakanda Forever poster"
-               onerror="this.onerror=null;this.src='https://via.placeholder.com/300x450?text=Poster';" />
-          <div class="overlay"><p>Wakanda Forever • ★ 4.0</p></div>
-        </article>
-       <article class="card">
-          <img loading="lazy"
-              src="https://image.tmdb.org/t/p/w500/gGEsBPAijhVUFoiNpgZXqRVWJt2.jpg"
-              alt="Coco poster"
-              onerror="this.onerror=null;this.src='https://via.placeholder.com/300x450?text=Poster';" />
-          <div class="overlay"><p>Coco • ★ 4.7</p></div>
-        </article>
-        <article class="card">
-          <img loading="lazy"
-               src="https://image.tmdb.org/t/p/w500/8Y43POKjjKDGI9MH89NW0NAzzp8.jpg"
-               alt="Free Guy poster"
-               onerror="this.onerror=null;this.src='https://via.placeholder.com/300x450?text=Poster';" />
-          <div class="overlay"><p>Free Guy • ★ 4.1</p></div>
-        </article>
-      </div>
-    </section>
-
-    <!-- Rilis Baru -->
-    <section class="section">
-      <h3>Rilis Baru</h3>
-      <div class="scroller" tabindex="0" aria-label="Rilis Baru (geser)">
-        <article class="card">
-          <img loading="lazy"
-               src="https://image.tmdb.org/t/p/w500/ym1dxyOk4jFcSl4Q2zmRrA5BEEN.jpg"
-               alt="The Little Mermaid poster"
-               onerror="this.onerror=null;this.src='https://via.placeholder.com/300x450?text=Poster';" />
-          <div class="overlay"><p>The Little Mermaid • New</p></div>
-        </article>
-        <article class="card">
-          <img loading="lazy"
-               src="https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg"
-               alt="Dune: Part Two poster"
-               onerror="this.onerror=null;this.src='https://via.placeholder.com/300x450?text=Poster';" />
-          <div class="overlay"><p>Dune: Part Two • New</p></div>
-        </article>
-       <article class="card">
-          <img loading="lazy"
-               src="https://image.tmdb.org/t/p/w500/62HCnUTziyWcpDaBO2i1DX17ljH.jpg"
-               alt="Top Gun: Maverick poster"
-               onerror="this.onerror=null;this.src='https://via.placeholder.com/300x450?text=Poster';" />
-          <div class="overlay"><p>Top Gun: Maverick • New</p></div>
-        </article>
-        <article class="card">
-          <img loading="lazy"
-               src="https://image.tmdb.org/t/p/w500/qNBAXBIQlnOThrVvA6mA2B5ggV6.jpg"
-               alt="The Super Mario Bros. Movie poster"
-               onerror="this.onerror=null;this.src='https://via.placeholder.com/300x450?text=Poster';" />
-          <div class="overlay"><p>Super Mario Bros • New</p></div>
-        </article>
-        <article class="card">
-          <img loading="lazy"
-               src="https://image.tmdb.org/t/p/w500/ykUEbfpkf8d0w49pHh0AD2KrT52.jpg"
-               alt="Interstellar (varian) poster"
-               onerror="this.onerror=null;this.src='https://via.placeholder.com/300x450?text=Poster';" />
-          <div class="overlay"><p>Interstellar (Varian) • New</p></div>
-        </article>
-        <article class="card">
-          <img loading="lazy"
-               src="https://image.tmdb.org/t/p/w500/xmbU4JTUm8rsdtn7Y3Fcm30GpeT.jpg"
-               alt="Free Guy (varian) poster"
-               onerror="this.onerror=null;this.src='https://via.placeholder.com/300x450?text=Poster';" />
-          <div class="overlay"><p>Free Guy (Varian) • New</p></div>
-        </article>
-      </div>
-    </section>
-  </main>
-
-  <!-- FOOTER -->
-  <footer class="site-footer">
-    <div class="foot-grid">
-      <div class="foot-brand">
-        <div class="logo-row"><i class="logo-box" aria-hidden="true">🎬</i> <span>CHILL</span></div>
-        <p class="copy">©2025 Chill All Rights Reserved.</p>
-      </div>
-
-      <div class="foot-block foot-genre">
-        <div class="foot-title">Genre</div>
-        <ul class="foot-list genre-cols">
+            <div className="foot-block foot-genre">
+              <div className="foot-title">Genre</div>
+              <ul className="foot-list genre-cols">
           <li>Aksi</li><li>Drama</li><li>Komedi</li><li>Sains & Alam</li>
           <li>Anak-anak</li><li>Fantasi Ilmiah & Fantasi</li>
           <li>Petualangan</li><li>Thriller</li>
@@ -251,10 +199,9 @@
           <li>Britania</li><li>KDrama</li>
         </ul>
       </div>
-
-      <div class="foot-block foot-help">
-        <div class="foot-title">Bantuan</div>
-        <ul class="foot-list">
+            <div className="foot-block foot-help">
+              <div className="foot-title">Bantuan</div>
+              <ul className="foot-list">
           <li><a href="#">FAQ</a></li>
           <li><a href="#">Kontak Kami</a></li>
           <li><a href="#">Privasi</a></li>
@@ -263,6 +210,147 @@
       </div>
     </div>
   </footer>
+      );
+    }
+
+    function Modal({ open, onClose, item }){
+      if(!open) return null;
+      return (
+        <div className="backdrop" onClick={onClose}>
+          <div className="modal" onClick={(e)=>e.stopPropagation()}>
+            <div className="modal-header">
+              <div className="modal-title">{item?.label || 'Detail'}</div>
+              <button className="modal-close" onClick={onClose}>Tutup</button>
+            </div>
+            <div className="modal-body">
+              <div className="modal-row">
+                <img className="modal-poster" src={item?.img} alt={item?.alt} onError={(e)=>{e.currentTarget.onerror=null;e.currentTarget.src='https://via.placeholder.com/300x450?text=Poster';}} />
+                <div>
+                  <p style={{color:'#9bb0c7',marginTop:0}}>Sinopsis singkat konten. Konten ini hanya contoh untuk kebutuhan UI.</p>
+                  <div className="modal-actions">
+                    <a className="btn" href="./watch.html">Tonton</a>
+                    <a className="btn-outline" href="#">Tambah ke Daftar</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function GenreFilter({ genres, selectedGenre, onGenreChange }) {
+      return (
+        <div className="genre-filter">
+          {genres.map(genre => (
+            <a 
+              key={genre} 
+              href="#" 
+              className={`genre-chip ${selectedGenre === genre ? 'active' : ''}`}
+              onClick={(e) => { e.preventDefault(); onGenreChange(genre); }}
+            >
+              {genre}
+            </a>
+          ))}
+        </div>
+      );
+    }
+
+    function ContinueCard({ img, alt, label, progress }) {
+      return (
+        <article className="card continue-item">
+          <a href="./watch.html">
+            <img loading="lazy" src={img} alt={alt} onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = 'https://via.placeholder.com/300x450?text=Poster';
+            }} />
+            <div className="overlay"><p>{label}</p></div>
+            <div className="continue-progress">
+              <div className="continue-bar" style={{width: `${progress}%`}}></div>
+            </div>
+          </a>
+        </article>
+      );
+    }
+
+    function DetailModal({ open, onClose, item }) {
+      if (!open) return null;
+      return (
+        <div className="backdrop" onClick={onClose}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <div className="modal-title">{item?.title || 'Detail'}</div>
+              <button className="modal-close" onClick={onClose}>Tutup</button>
+            </div>
+            <div className="modal-body">
+              <div className="modal-row">
+                <img className="modal-poster" src={item?.img || "https://images.unsplash.com/photo-1517423440428-a5a00ad493e8?q=80&w=300&auto=format&fit=crop"} alt="Poster" onError={(e)=>{e.currentTarget.onerror=null;e.currentTarget.src='https://via.placeholder.com/300x450?text=Poster';}} />
+                <div>
+                  <p style={{color:'#9bb0c7',marginTop:0}}>{item?.fullDescription || item?.description || 'Deskripsi tidak tersedia.'}</p>
+                  {item?.episodes && (
+                    <div style={{marginTop:'16px'}}>
+                      <h4 style={{margin:'0 0 8px',fontSize:'16px'}}>Episode:</h4>
+                      {item.episodes.map((ep, i) => (
+                        <div key={i} style={{padding:'4px 0',borderBottom:'1px solid #2a3441'}}>
+                          <div style={{fontWeight:'600'}}>{ep.title}</div>
+                          <div style={{fontSize:'12px',color:'#9bb0c7'}}>{ep.duration}</div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  <div className="modal-actions">
+                    <a className="btn" href="./watch.html">Tonton</a>
+                    <a className="btn-outline" href="#">Tambah ke Daftar</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function App() {
+      const [showProfile, setShowProfile] = React.useState(false);
+      const [selectedGenre, setSelectedGenre] = React.useState('Semua');
+      const [showDetail, setShowDetail] = React.useState(false);
+      const [selectedItem, setSelectedItem] = React.useState(null);
+
+      const handleShowDetail = (item) => {
+        setSelectedItem(item);
+        setShowDetail(true);
+      };
+
+      return (
+        <>
+          <Header showProfile={showProfile} setShowProfile={setShowProfile} />
+          <main className="container" role="main">
+            <Hero {...data.hero} onShowDetail={() => handleShowDetail(data.hero)} />
+            <GenreFilter 
+              genres={data.genres} 
+              selectedGenre={selectedGenre} 
+              onGenreChange={setSelectedGenre} 
+            />
+            <section className="section">
+              <h3>Melanjutkan Menonton</h3>
+              <Scroller ariaLabel="Melanjutkan Menonton (geser untuk melihat lainnya)">
+                {data.continueWatching.map((item, idx) => (
+                  <ContinueCard key={idx} {...item} />
+                ))}
+              </Scroller>
+            </section>
+            {data.sections.map((section) => (
+              <Section key={section.title} title={section.title} items={section.items} onShowDetail={handleShowDetail} />
+            ))}
+          </main>
+          <DetailModal open={showDetail} onClose={() => setShowDetail(false)} item={selectedItem} />
+          <Footer />
+        </>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
 </body>
 </html>
 

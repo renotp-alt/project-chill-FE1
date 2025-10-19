@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chill — Pilih Paket</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="topbar">
+      <div class="brand"><i class="brand-icon" aria-hidden="true">🎬</i> <span>CHILL</span></div>
+      <nav aria-label="Navigasi utama">
+        <a href="./series.html">Series</a>
+        <a href="./film.html">Film</a>
+        <a href="./my-list.html">Daftar Saya</a>
+      </nav>
+      <a class="avatar" href="./profile.html" title="Profil" aria-label="Profil"></a>
+    </div>
+  </header>
+
+  <main class="container" role="main">
+    <section class="section">
+      <h3>Pilih Paket</h3>
+      <div class="pricing-wrap">
+        <div class="pricing-grid">
+          <div class="pricing-card">
+            <h4>Basic</h4>
+            <div class="price">Rp 29.000<span style="font-size:12px">/bulan</span></div>
+            <div class="desc">Resolusi 720p, 1 perangkat</div>
+            <button class="btn" onclick="selectPlan('Basic - 29K')">Pilih Basic</button>
+          </div>
+          <div class="pricing-card">
+            <h4>Standard</h4>
+            <div class="price">Rp 59.000<span style="font-size:12px">/bulan</span></div>
+            <div class="desc">1080p, 2 perangkat</div>
+            <button class="btn" onclick="selectPlan('Standard - 59K')">Pilih Standard</button>
+          </div>
+          <div class="pricing-card">
+            <h4>Premium</h4>
+            <div class="price">Rp 89.000<span style="font-size:12px">/bulan</span></div>
+            <div class="desc">4K, 4 perangkat</div>
+            <button class="btn" onclick="selectPlan('Premium - 89K')">Pilih Premium</button>
+          </div>
+        </div>
+      </div>
+      <div><a class="btn-outline" href="./profile.html">Kembali</a></div>
+    </section>
+  </main>
+
+  <script>
+    function selectPlan(name){
+      try{ localStorage.setItem('chill.plan', name); }catch(e){}
+      window.location.href = './payment.html';
+    }
+  </script>
+</body>
+</html>
+
+
