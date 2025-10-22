@@ -197,30 +197,96 @@ h1{margin:8px 0 4px;text-align:center;font-size:26px}
   }
 }
 
-/* ====== MODAL DETAIL ====== */
-.backdrop{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:50;padding:16px}
-.modal{width:min(92vw,920px);background:#0f141b;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.5)}
-.modal-header{display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line)}
-.modal-title{font-weight:800}
-.modal-close{margin-left:auto;border:1px solid #2b3748;background:#111;color:#fff;border-radius:8px;padding:6px 10px;cursor:pointer}
-.modal-body{display:grid;gap:14px;padding:14px}
-.modal-row{display:grid;gap:14px;grid-template-columns:120px 1fr}
-.modal-poster{width:100%;aspect-ratio:2/3;border-radius:10px;object-fit:cover;border:1px solid var(--line)}
-.modal-actions{display:flex;gap:10px;flex-wrap:wrap}
-@media (max-width:480px){ .modal-row{grid-template-columns:1fr} }
+/* ===== Overlay & Modal (clean) ===== */
 
-/* ====== PRICING & PAYMENT ====== */
-.pricing-wrap{display:grid;gap:16px;margin:24px 0}
-.pricing-grid{display:grid;gap:12px;grid-template-columns:1fr}
-.pricing-card{background:linear-gradient(180deg,#4F6CF7,#3A47D5);color:#fff;border-radius:14px;padding:16px;box-shadow:0 8px 20px rgba(0,0,0,.25)}
-.pricing-card h4{margin:0 0 6px}
-.pricing-card .price{font-size:28px;font-weight:900;margin:6px 0}
-.pricing-card .desc{opacity:.9}
-.pricing-card .btn{margin-top:10px}
-@media (min-width:640px){ .pricing-grid{grid-template-columns:repeat(3,1fr)} }
+/* header selalu di atas overlay */
+.header, .site-header { position: sticky; top: 0; z-index: 4000; }
+.topbar { position: relative; z-index: 4001; }
 
-.summary{background:#0f141b;border:1px solid var(--line);border-radius:14px;padding:16px;color:var(--text)}
-.summary-row{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid #1f2a38}
-.summary-row:last-child{border-bottom:0}
-.summary-total{font-weight:900}
+/* layer backdrop di bawah modal, di bawah header */
+.backdrop{
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.72);
+  z-index: 3500;
+}
 
+/* panel modal di tengah layar */
+.modal{
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(960px, calc(100% - 32px));
+  max-height: 90vh;
+  overflow: auto;
+  background: #111;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 16px;
+  padding: 16px;
+  z-index: 3600;
+  box-shadow: 0 20px 60px rgba(0,0,0,.6);
+}
+
+/* elemen modal */
+.modal-hero{ border-radius:12px; overflow:hidden; }
+.modal-header{ display:flex; align-items:center; justify-content:space-between; margin:10px 0; }
+.modal-title{ font-weight:700; font-size:18px; }
+.modal-close{ background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15); color:#fff; border-radius:999px; width:36px; height:36px; }
+
+/* episode list (series) */
+.episode-card{
+  display:grid; grid-template-columns:44px 140px 1fr auto;
+  gap:12px; padding:10px;
+  border-radius:12px; background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.06);
+}
+.episode-no{ display:flex; align-items:center; justify-content:center; font-weight:700; }
+.episode-thumb{ width:140px; aspect-ratio:16/9; border-radius:8px; background:#121212 center/cover no-repeat; }
+.episode-title{ font-weight:600; }
+.episode-desc{ color:#acb5bf; }
+
+/* ===== Card Hover Enhancement ===== */
+.clickable-card {
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.clickable-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 24px rgba(0,0,0,.4);
+}
+
+/* Tambah teks kecil di bawah saat hover */
+.hover-hint {
+  position: absolute;
+  bottom: 6px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 12px;
+  color: rgba(255,255,255,.7);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+.clickable-card:hover .hover-hint {
+  opacity: 1;
+}
+
+/* Fokus via keyboard (aksesibilitas) */
+.clickable-card:focus-visible {
+  outline: 2px solid var(--primary-500);
+  outline-offset: 4px;
+}
+
+/* Hover/focus feedback untuk kartu */
+.clickable-card{ cursor:pointer; position:relative; transition:transform .25s, box-shadow .25s; }
+.clickable-card:hover{ transform:scale(1.05); box-shadow:0 8px 24px rgba(0,0,0,.4); }
+.clickable-card:focus-visible{ outline:2px solid var(--primary-500); outline-offset:4px; }
+.hover-hint{
+  position:absolute; left:0; right:0; bottom:6px; text-align:center;
+  font-size:12px; color:rgba(255,255,255,.8); opacity:0; transition:opacity .2s; pointer-events:none;
+}
+.clickable-card:hover .hover-hint{ opacity:1; }
+
+/* Biarkan klik tembus ke wrapper kartu */
+.card .overlay { pointer-events: none; }
